@@ -1,9 +1,7 @@
 package io.fabric8.maven.docker;
 
 import java.io.File;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import io.fabric8.maven.docker.access.DockerAccess;
 import io.fabric8.maven.docker.access.DockerAccessException;
@@ -101,6 +99,9 @@ public abstract class AbstractDockerMojo extends AbstractMojo implements Context
     // Whether to remove volumes when removing the container (start/watch/stop)
     @Parameter(property = "docker.removeVolumes", defaultValue = "false")
     protected boolean removeVolumes;
+
+    @Parameter(property = "docker.autoConfiguration.imageName", defaultValue = "")
+    protected String imageName;
 
     @Parameter(property = "docker.apiVersion")
     private String apiVersion;
@@ -208,6 +209,8 @@ public abstract class AbstractDockerMojo extends AbstractMojo implements Context
             authConfigFactory.setLog(log);
 
             LogOutputSpecFactory logSpecFactory = new LogOutputSpecFactory(useColor, logStdout, logDate);
+
+            ConfigHelper.validateExternalPropertyActivation(project, images);
 
             // The 'real' images configuration to use (configured images + externally resolved images)
             this.minimalApiVersion = initImageConfiguration(getBuildTimestamp());
