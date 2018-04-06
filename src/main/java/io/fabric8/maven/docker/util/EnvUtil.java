@@ -302,13 +302,13 @@ public class EnvUtil {
     public static String fixupPath(String path) {
         // Hack-fix for mounting on Windows where the ${projectDir} variable and other
         // contain backslashes and what not. Related to #188
-        Pattern pattern = Pattern.compile("^(?i)([A-Z]):(.*)$");
+        Pattern pattern = Pattern.compile("^(?i)([A-Z]):(.*)$") ;
         Matcher matcher = pattern.matcher(path);
         if (matcher.matches()) {
             String result = "/" + matcher.group(1).toLowerCase() + matcher.group(2);
-            return result.replace("\\","/");
+            return result.replace("\\","/").replace("C:","/c");
         }
-        return path;
+        return path.replace("C:","/c");
     }
 
     /**

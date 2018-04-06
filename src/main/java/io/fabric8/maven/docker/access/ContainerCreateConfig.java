@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 public class ContainerCreateConfig {
 
-    private final JSONObject createConfig = new JSONObject();
+    public JSONObject createConfig = new JSONObject();
     private final String imageName;
     public ContainerCreateConfig(String imageName) {
         this.imageName = imageName;
@@ -137,10 +137,10 @@ public class ContainerCreateConfig {
         if (path.contains(":")) {
             String[] parts = path.split(":");
             if (parts.length > 1) {
-                return parts[1];
+                return parts[1].replace("/c/","C:/");
             }
         }
-        return path;
+        return path.replace("/c/","C:/");
     }
 
     private void addEnvironment(Properties envProps) {

@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 public class ContainerHostConfig {
 
-    final JSONObject startConfig = new JSONObject();
+    JSONObject startConfig = new JSONObject();
 
     public ContainerHostConfig() {}
 
@@ -26,7 +26,7 @@ public class ContainerHostConfig {
                 volume = EnvUtil.fixupPath(volume);
 
                 if (volume.contains(":")) {
-                    binds.put(volume);
+                    binds.put(volume.replace("/c/","C:/"));
                 }
             }
             startConfig.put("Binds", binds);
